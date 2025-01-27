@@ -5,13 +5,12 @@ import java.net.*;
 
 /**
  * Clase Servidor que espera conexiones de un cliente y maneja un flujo de mensajes
- * basado en un esquema definido. Utiliza sockets para la comunicación.
+ * basado en un esquema definido.
  */
 public class Servidor {
 
     /**
-     * Método principal que inicia el servidor, escucha conexiones en el puerto 12345,
-     * y gestiona el flujo de conversación con el cliente.
+     * Método principal que inicia el servidor y espera conexiones en el puerto 12345.
      *
      * @param args Argumentos de línea de comandos (no se utilizan).
      */
@@ -19,11 +18,9 @@ public class Servidor {
         try (ServerSocket servidor = new ServerSocket(12345)) {
             System.out.println("Servidor iniciado. Esperando conexiones en el puerto 12345...");
 
-            // Espera a que un cliente se conecte
             Socket cliente = servidor.accept();
             System.out.println("Cliente conectado: " + cliente.getInetAddress().getHostAddress());
 
-            // Maneja la comunicación con el cliente
             manejarCliente(cliente);
 
             System.out.println("Servidor cerrando conexión...");
@@ -35,8 +32,7 @@ public class Servidor {
     }
 
     /**
-     * Método encargado de manejar la comunicación con el cliente.
-     * de mensajes predefinido, y responde con "Error" si el flujo es interrumpido.
+     * Método que maneja la comunicación con el cliente.
      *
      * @param cliente Socket del cliente conectado.
      * @throws IOException Si ocurre un error de comunicación.
@@ -47,7 +43,7 @@ public class Servidor {
 
         String mensajeCliente;
         boolean terminar = false;
-        int paso = 0; // Variable para controlar el flujo de la conversación
+        int paso = 0;
 
         while (!terminar && (mensajeCliente = entrada.readLine()) != null) {
             switch (paso) {
@@ -59,7 +55,6 @@ public class Servidor {
                         salida.println("Error");
                     }
                     break;
-
                 case 1:
                     if ("¿Qué vienes a buscar?".equals(mensajeCliente)) {
                         salida.println("A ti");
@@ -68,7 +63,6 @@ public class Servidor {
                         salida.println("Error");
                     }
                     break;
-
                 case 2:
                     if ("Ya es tarde".equals(mensajeCliente)) {
                         salida.println("¿Por qué?");
@@ -77,16 +71,14 @@ public class Servidor {
                         salida.println("Error");
                     }
                     break;
-
                 case 3:
                     if ("Porque ahora soy yo la que quiere estar sin ti".equals(mensajeCliente)) {
                         salida.println("Por eso vete, olvida mi nombre, mi cara, mi casa y pega la vuelta");
-                        terminar = true; // Finaliza la conversación
+                        terminar = true;
                     } else {
                         salida.println("Error");
                     }
                     break;
-
                 default:
                     salida.println("Error");
                     break;
